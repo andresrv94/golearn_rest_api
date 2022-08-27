@@ -24,5 +24,6 @@ func main() {
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
 	router.POST("/albums", postAlbums)
+	router.GET("/btcprice", getBtcPrice)
 	router.Run("localhost:8080")
 }
