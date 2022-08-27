@@ -1,10 +1,20 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
+
+type btcResponse struct {
+	Status map[string]interface{} `json:"status"`
+	Data   map[string]interface{} `json:"data"`
+}
 
 // getAlbumByID locates the album whose ID value matches the id
 // parameter sent by the client, then returns that album as a response.
@@ -40,4 +50,29 @@ func postAlbums(c *gin.Context) {
 	// Add the new album to the slice.
 	albums = append(albums, newAlbum)
 	c.IndentedJSON(http.StatusCreated, newAlbum)
+}
+
+func getBtcPrice(c *gin.Context) {
+	response, err := http.Get("https://data.messari.io/api/v1/assets/btc/metrics/market-data")
+
+	if err != nil {
+		fmt.Print(err.Error())
+		os.Exit(1)
+	}
+
+	responseData, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(responseData))
+
+	data_obj := btcResponse{}
+	jsonErr := json.Unmarshal(responseData, &data_obj)
+	if jsonErr != nil {
+		log.Fatal(jsonErr)
+	}
+	fmt.Println("Printing unmarshalled values:")
+	// fmt.Println("Data: ", data_obj.Data)
+	// fmt.Println("Status: ", data_obj.Status)
+	c.IndentedJSON(http.StatusOK, string(responseData))
 }
