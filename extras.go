@@ -64,15 +64,15 @@ func getBtcPrice(c *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(responseData))
+	// fmt.Println(string(responseData))
 
 	data_obj := btcResponse{}
 	jsonErr := json.Unmarshal(responseData, &data_obj)
 	if jsonErr != nil {
 		log.Fatal(jsonErr)
 	}
-	fmt.Println("Printing unmarshalled values:")
+	// fmt.Println("Printing unmarshalled values:")
 	// fmt.Println("Data: ", data_obj.Data)
 	// fmt.Println("Status: ", data_obj.Status)
-	c.IndentedJSON(http.StatusOK, string(responseData))
+	c.IndentedJSON(http.StatusOK, data_obj.Data)
 }
