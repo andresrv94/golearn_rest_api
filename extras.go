@@ -74,5 +74,7 @@ func getBtcPrice(c *gin.Context) {
 	// fmt.Println("Printing unmarshalled values:")
 	// fmt.Println("Data: ", data_obj.Data)
 	// fmt.Println("Status: ", data_obj.Status)
-	c.IndentedJSON(http.StatusOK, data_obj.Data)
+	marketData := data_obj.Data["market_data"].(map[string]interface{})
+
+	c.IndentedJSON(http.StatusOK, marketData["price_usd"])
 }
