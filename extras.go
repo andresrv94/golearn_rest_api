@@ -111,10 +111,28 @@ func calculator2(c *gin.Context) {
 			"status": "OK",
 			"result": result,
 		})
-	} else if op == "-" || op == "/" || op == "*" {
+	} else if op == "-" {
+		result := substractNumbers(n1, n2)
 		c.IndentedJSON(http.StatusOK, gin.H{
 			"status": "OK",
-			"result": "Operation still not supported :)",
+			"result": result,
+		})
+	} else if op == "*" {
+		result := multiplyNumbers(n1, n2)
+		c.IndentedJSON(http.StatusOK, gin.H{
+			"status": "OK",
+			"result": result,
+		})
+	} else if op == "/" {
+		result := divideNumbers(n1, n2)
+		c.IndentedJSON(http.StatusOK, gin.H{
+			"status": "OK",
+			"result": result,
+		})
+	} else {
+		c.IndentedJSON(http.StatusOK, gin.H{
+			"status": "Error",
+			"result": "Operation not recognized",
 		})
 	}
 
@@ -122,4 +140,16 @@ func calculator2(c *gin.Context) {
 
 func sumNumbers(x int, y int) int {
 	return x + y
+}
+
+func substractNumbers(x int, y int) int {
+	return x - y
+}
+
+func multiplyNumbers(x int, y int) int {
+	return x * y
+}
+
+func divideNumbers(x int, y int) int {
+	return x / y
 }
