@@ -14,6 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Debug
+      run: ls -l
+
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
