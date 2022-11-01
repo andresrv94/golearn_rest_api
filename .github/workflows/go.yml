@@ -13,6 +13,11 @@ jobs:
     if: github.ref != 'refs/heads/main'
     steps:
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+
+    - name: Debug
+      run: ls -l && cat extras.go
 
     - name: Set up Go
       uses: actions/setup-go@v3
